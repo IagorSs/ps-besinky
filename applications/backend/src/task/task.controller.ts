@@ -24,9 +24,8 @@ export class TaskController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async createTask(@Body() createTaskBody: CreateTaskFields) {
-    await this.taskService.createTask(createTaskBody);
+  async createTask(@Body() createTaskBody: CreateTaskFields): Promise<Task> {
+    return this.taskService.createTask(createTaskBody);
   }
 
   @Patch('/toggleCompletion')

@@ -16,11 +16,13 @@ export class TaskService {
     return this.tasksRepository.find();
   }
 
-  async createTask(createTaskFields: CreateTaskFields) {
-    await this.tasksRepository.save({
+  async createTask(createTaskFields: CreateTaskFields): Promise<Task> {
+    const newTask = this.tasksRepository.create({
       ...createTaskFields,
       isGeneratedByAI: !!createTaskFields.isGeneratedByAI,
     });
+
+    return this.tasksRepository.save(newTask);
   }
 
   async getTask(taskIdentification: TaskIdentification) {
