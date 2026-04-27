@@ -11,3 +11,5 @@ OpenAPI swagger interface on /api/docs
 - Identification on swagger of explicit errors dynamically threw on route flows
 - Invert dependency injection by putting on module that will used external dep a interface ref to implementation injection defined on module file
 - Unify eslint, tsconfig, prettier, editorconfig, etc. of all workspaces to create just one pattern for entire code
+- Implement unified logs pattern
+- Centralize system that throw logs to don't use native console.log
