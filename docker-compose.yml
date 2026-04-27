@@ -1,0 +1,19 @@
+name: ps-besinky
+
+services:
+  backend:
+    build:
+      dockerfile: ./applications/backend/Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+
+  frontend:
+    build:
+      dockerfile: ./applications/frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
