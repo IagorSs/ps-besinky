@@ -1,15 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTaskFields } from './dtos/createTaskFields.dto';
 import { TaskIdentification } from './dtos/taskIdentification.dto';
 import { Task } from './task.entity';
+import { GenerativeAiService } from 'src/generativeAi/generativeAi.service';
+import { Prompt } from 'src/generativeAi/dtos/prompt.dto';
 
 @Injectable()
 export class TaskService {
   constructor(
     @InjectRepository(Task)
     private tasksRepository: Repository<Task>,
+    @Inject(GenerativeAiService)
+    private generativeAiService: GenerativeAiService,
   ) {}
 
   async getAllTasks(): Promise<Task[]> {
@@ -49,5 +53,19 @@ export class TaskService {
     task.isCompleted = !task.isCompleted;
 
     await this.tasksRepository.save(task);
+  }
+
+  async generateTasksListByPrompt(taskListPrompt: Prompt): Promise<Task[]> {
+    const plainTaskList =
+      await this.generativeAiService.getListByPrompt(taskListPrompt);
+
+    const taskListPromise = plainTaskList.map(async (plainTaskItem) => {
+      return this.createTask({
+        title: plainTaskItem,
+        isGeneratedByAI: true,
+      });
+    });
+
+    return Promise.all(taskListPromise);
   }
 }

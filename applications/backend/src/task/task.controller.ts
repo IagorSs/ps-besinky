@@ -13,6 +13,7 @@ import { Task } from './task.entity';
 import { CreateTaskFields } from './dtos/createTaskFields.dto';
 import { TaskIdentification } from './dtos/taskIdentification.dto';
 import { ApiResponse } from '@nestjs/swagger';
+import { Prompt } from 'src/generativeAi/dtos/prompt.dto';
 
 @Controller('/tasks')
 export class TaskController {
@@ -26,6 +27,11 @@ export class TaskController {
   @Post()
   async createTask(@Body() createTaskBody: CreateTaskFields): Promise<Task> {
     return this.taskService.createTask(createTaskBody);
+  }
+
+  @Post('/aiGeneration')
+  async createTaskUsingAiPrompt(@Body() prompt: Prompt): Promise<Task[]> {
+    return this.taskService.generateTasksListByPrompt(prompt);
   }
 
   @Patch('/toggleCompletion')
