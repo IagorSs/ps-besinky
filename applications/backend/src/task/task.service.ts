@@ -68,4 +68,10 @@ export class TaskService {
 
     return Promise.all(taskListPromise);
   }
+
+  async deleteTask(taskIdentification: TaskIdentification) {
+    const task = await this.getMandatoryTask(taskIdentification);
+
+    return this.tasksRepository.delete(task.id);
+  }
 }

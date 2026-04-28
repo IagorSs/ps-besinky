@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -47,5 +48,18 @@ export class TaskController {
     @Query() toggleCompletionTaskQuery: TaskIdentification,
   ) {
     await this.taskService.toggleCompletion(toggleCompletionTaskQuery);
+  }
+
+  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Occurs when specify not-existent task',
+  })
+  async deleteTask(@Query() deleteTaskQuery: TaskIdentification) {
+    await this.taskService.deleteTask(deleteTaskQuery);
   }
 }
