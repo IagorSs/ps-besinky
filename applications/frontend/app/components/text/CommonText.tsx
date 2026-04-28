@@ -1,10 +1,8 @@
-interface CommonTextProps {
-  children: React.ReactNode;
-}
+import { CommonTextFields } from "./commonInterfaces";
 
-export default function CommonText({ children }: CommonTextProps) {
+export default function CommonText({ children, className }: CommonTextFields) {
   return (
-    <p className="text-xs text-zinc-400">
+    <p className={"text-xs text-zinc-400" + " " + className}>
       {children}
     </p>
   );

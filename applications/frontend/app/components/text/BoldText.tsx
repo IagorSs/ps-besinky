@@ -1,10 +1,8 @@
-interface BoldTextProps {
-  children: React.ReactNode;
-}
+import { CommonTextFields } from './commonInterface'
 
-export default function BoldText({ children }: BoldTextProps) {
+export default function BoldText({ children, className }: CommonTextFields) {
   return (
-    <p className="text-white font-medium">
+    <p className={"text-white font-medium" + " " + className}>
       {children}
     </p>
   );
