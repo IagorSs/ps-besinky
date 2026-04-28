@@ -5,16 +5,16 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
-import { TaskService } from './task.service';
-import { Task } from './task.entity';
-import { CreateTaskFields } from './dtos/createTaskFields.dto';
-import { TaskIdentification } from './dtos/taskIdentification.dto';
 import { ApiResponse } from '@nestjs/swagger';
 import { Prompt } from 'src/generativeAi/dtos/prompt.dto';
+import { CreateTaskFields } from './dtos/createTaskFields.dto';
+import { TaskIdentification } from './dtos/taskIdentification.dto';
+import { Task } from './task.entity';
+import { TaskService } from './task.service';
 
 @Controller('/tasks')
 export class TaskController {
@@ -35,7 +35,7 @@ export class TaskController {
     return this.taskService.generateTasksListByPrompt(prompt);
   }
 
-  @Patch('/toggleCompletion')
+  @Patch('/toggleCompletion/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
@@ -45,12 +45,12 @@ export class TaskController {
     description: 'Occurs when specify not-existent task',
   })
   async toggleCompletion(
-    @Query() toggleCompletionTaskQuery: TaskIdentification,
+    @Param() toggleCompletionTaskQuery: TaskIdentification,
   ) {
     await this.taskService.toggleCompletion(toggleCompletionTaskQuery);
   }
 
-  @Delete()
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
@@ -59,7 +59,7 @@ export class TaskController {
     status: HttpStatus.NOT_FOUND,
     description: 'Occurs when specify not-existent task',
   })
-  async deleteTask(@Query() deleteTaskQuery: TaskIdentification) {
+  async deleteTask(@Param() deleteTaskQuery: TaskIdentification) {
     await this.taskService.deleteTask(deleteTaskQuery);
   }
 }
