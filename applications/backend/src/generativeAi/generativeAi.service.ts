@@ -1,4 +1,4 @@
-import { generateListByPrompt } from '@packages/ai-integrator';
+import { generateListByPrompt } from '@packages/openai-integrator';
 import { Prompt } from './dtos/prompt.dto';
 import { InternalServerErrorException } from '@nestjs/common';
 

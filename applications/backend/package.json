@@ -25,7 +25,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.4.2",
     "@nestjs/typeorm": "^11.0.1",
-    "@packages/ai-integrator": "workspace:*",
+    "@packages/openai-integrator": "workspace:*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "reflect-metadata": "^0.2.2",

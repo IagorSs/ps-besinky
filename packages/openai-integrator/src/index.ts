@@ -1,8 +1,6 @@
 import OpenAI from "openai";
 
-const client = new OpenAI({
-  apiKey: process.env['AI_INTEGRATOR_API_KEY'],
-});
+const client = new OpenAI();
 
 export const generateListByPrompt = async (prompt: string): Promise<string[]> => {
   const { output_text: response } = await client.responses.create({
