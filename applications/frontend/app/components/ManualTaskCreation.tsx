@@ -3,6 +3,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
+import { TextField } from "./input";
 
 interface ManualTaskCreationProps {
   handleAddTask: (title: string) => void
@@ -22,12 +23,13 @@ export default function ManualTaskCreation({ handleAddTask }: ManualTaskCreation
 
   return (
     <form className="flex gap-2" onSubmit={handleAddTaskFormSubmit}>
-      <input
-        type="text"
+      <TextField
         value={taskTitle}
-        onChange={(e) => setTaskTitle(e.target.value)}
+        onChange={setTaskTitle}
         placeholder="Digite uma nova tarefa..."
-        className="flex-1 px-4 py-3 border border-zinc-600 rounded-lg bg-zinc-700 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        styles={{
+          everClassNames: "flex-1 border-zinc-600 bg-zinc-700 text-white focus:ring-zinc-400"
+        }}
         required
       />
       
