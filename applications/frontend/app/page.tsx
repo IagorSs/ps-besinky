@@ -1,31 +1,46 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { EmptyTaskListWarning, ManualTaskCreation, TaskItem, InteractionModeSwitch, AiTaskCreation } from "./components";
-import type { InteractionMode } from './components/InteractionModeSwitch'
-import { Title, Title2 } from "./components/text";
 import { Task } from "@packages/domain";
+import { useEffect, useState } from "react";
+import { AiTaskCreation, InteractionModeSwitch, ManualTaskCreation, TaskList } from "./components";
+import type { InteractionMode } from './components/InteractionModeSwitch';
+import { Title, Title2 } from "./components/text";
 import { taskService } from "./services";
+import Skeleton from '@mui/material/Skeleton';
 
 export default function Home() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasksState] = useState<Task[]>([]);
   const [interactionMode, setInteractionMode] = useState<InteractionMode>("manual");
+  const [completedTasks, setCompletedTasks] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [starting, setStarting] = useState<boolean>(true);
+
+  const setTasks = (newTasks: Task[]) => {
+    setTasksState(newTasks);
+    setCompletedTasks(
+      newTasks.filter(({ isCompleted }) => isCompleted).length
+    )
+  }
 
   useEffect(() => {
-    // TODO loading
     // TODO error treatment
     taskService
       .getTasks()
-      .then((tasks) => setTasks(tasks));
+      .then((tasks) => {
+        setTasks(tasks);
+        setStarting(false);
+      });
   }, []);
 
   const handleAddTask = (taskTitle: string) => {
-    // TODO add loading
+    setLoading(true);
+
     // TODO error treatment
     taskService.addTask({
       title: taskTitle
     }).then(newTask => {
       setTasks([newTask, ...tasks]);
+      setLoading(false);
     });
   };
 
@@ -41,15 +56,28 @@ export default function Home() {
   // FIXME this can generate inconsistencies between frontend and backend, maybe
   // change to simple patch to complete or uncomplete task
   const handleToggleCheckbox = async (task: Task): Promise<void> => {
+    const taskIdx = tasks.findIndex(t => t.id === task.id);
+
     return taskService.toggleTaskCompletion(task)
+      .then(() => {
+        tasks[taskIdx] = {
+          ...tasks[taskIdx],
+          isCompleted: !tasks[taskIdx].isCompleted
+        }
+
+        setTasks(tasks);
+      })
   }
 
   const handleCreateAiTasks = async (openAiApiKey: string, aiPrompt: string) => {
-    // TODO add loading
+    setLoading(true);
+
     // TODO error treatment
     const aiGeneratedTasks = await taskService.generateTasksWithAiPrompt(openAiApiKey, aiPrompt);
 
     setTasks([...aiGeneratedTasks, ...tasks]);
+
+    setLoading(false);
   }
 
   return (
@@ -59,7 +87,7 @@ export default function Home() {
         <div className="flex">
           <Title className="flex-1">Smart To-Do List</Title>
 
-          <InteractionModeSwitch onChange={setInteractionMode} />
+          <InteractionModeSwitch disabled={loading} onChange={setInteractionMode} />
         </div>
 
         {
@@ -69,22 +97,18 @@ export default function Home() {
         }
 
         <div className="flex-1 space-y-3 overflow-hidden pb-12">
-          <Title2>Tarefas ({tasks.length})</Title2>
+          <Title2>Tarefas ({completedTasks} / {tasks.length})</Title2>
 
-          {tasks.length === 0 ? (
-            <EmptyTaskListWarning />
-          ) : (
-            <ul className="h-full space-y-2 overflow-y-auto scrollbar scrollbar-thumb-zinc-600 scrollbar-track-zinc-400/10">
-              {tasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  onDeleteTask={handleDeleteTask}
-                  onToggleCheckBox={handleToggleCheckbox}
-                />
-              ))}
-            </ul>
-          )}
+          {
+            starting
+              ? (
+                <Skeleton variant="rounded" width='100%' height={400} sx={{ bgcolor: '#3f3f46' }} />
+              )
+              : (
+                <TaskList tasks={tasks} handleDeleteTask={handleDeleteTask} handleToggleCheckbox={handleToggleCheckbox} />
+              )
+          }
+
         </div>
       </main>
     </div>
