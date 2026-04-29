@@ -26,4 +26,10 @@ export default class TaskService extends AxiosBaseService {
   async toggleTaskCompletion(taskIdentification: TaskIdentificationDto): Promise<void> {
     await this.apiClient.patch(`tasks/toggleCompletion/${taskIdentification.id}`);
   }
+
+  async generateTasksWithAiPrompt(aiPrompt: string): Promise<Task[]> {
+    const { data } = await this.apiClient.post<Task[]>('tasks/aiGeneration', { prompt: aiPrompt });
+
+    return data;
+  }
 }

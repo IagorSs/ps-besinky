@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { EmptyTaskListWarning, ManualTaskCreation, TaskItem, InteractionModeSwitch, } from "./components";
+import { EmptyTaskListWarning, ManualTaskCreation, TaskItem, InteractionModeSwitch, AiTaskCreation } from "./components";
 import type { InteractionMode } from './components/InteractionModeSwitch'
 import { Title, Title2 } from "./components/text";
 import { Task } from "@packages/domain";
@@ -44,6 +44,14 @@ export default function Home() {
     return taskService.toggleTaskCompletion(task)
   }
 
+  const handleCreateAiTasks = async (aiPrompt: string) => {
+    // TODO add loading
+    // TODO error treatment
+    const aiGeneratedTasks = await taskService.generateTasksWithAiPrompt(aiPrompt);
+
+    setTasks([...aiGeneratedTasks, ...tasks]);
+  }
+
   return (
     <div className="flex flex-1 justify-center font-sans bg-zinc-900">
       <main className="flex flex-col min-w-xl w-3/4 max-w-7xl space-y-8 h-screen py-12">
@@ -57,7 +65,7 @@ export default function Home() {
         {
           interactionMode === 'manual'
             ? <ManualTaskCreation handleAddTask={handleAddTask} />
-            : <h2>TODO</h2>
+            : <AiTaskCreation handleCreateAiTasks={handleCreateAiTasks} />
         }
 
         <div className="flex-1 space-y-3 overflow-hidden pb-12">
