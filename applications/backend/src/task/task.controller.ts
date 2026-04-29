@@ -9,8 +9,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
-import { Prompt } from '../generativeAi/dtos/prompt.dto';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { OpenAiRequest } from '../generativeAi/dtos/openAiRequest.dto';
 import { CreateTaskFields } from './dtos/createTaskFields.dto';
 import { TaskIdentification } from './dtos/taskIdentification.dto';
 import { Task } from './task.entity';
@@ -35,8 +35,24 @@ export class TaskController {
   }
 
   @Post('/aiGeneration')
-  async createTaskUsingAiPrompt(@Body() prompt: Prompt): Promise<Task[]> {
-    return this.taskService.generateTasksListByPrompt(prompt);
+  @ApiOperation({
+    description:
+      'This api uses OpenAi to do this request, put your api key to work. To generate one follow the link: https://platform.openai.com/home',
+  })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Occurs when given API key have some problem.',
+  })
+  async createTaskUsingAiPrompt(
+    @Body() openAiRequest: OpenAiRequest,
+  ): Promise<Task[]> {
+    return this.taskService.generateTasksListByPrompt(openAiRequest);
   }
 
   @Patch('/toggleCompletion/:id')

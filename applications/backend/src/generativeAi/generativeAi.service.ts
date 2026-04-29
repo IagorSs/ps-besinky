@@ -1,16 +1,34 @@
+import {
+  InternalServerErrorException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { generateListByPrompt } from '@packages/openai-integrator';
-import { Prompt } from './dtos/prompt.dto';
-import { InternalServerErrorException } from '@nestjs/common';
+import { OpenAiRequest } from './dtos/openAiRequest.dto';
 
 export class GenerativeAiService {
-  getListByPrompt({ prompt }: Prompt): Promise<string[]> {
+  async getListByPrompt(openAiRequest: OpenAiRequest): Promise<string[]> {
     try {
-      return generateListByPrompt(prompt);
-    } catch (error) {
-      console.log(error);
+      return await generateListByPrompt(
+        openAiRequest.openAiId.openAiApiKey,
+        openAiRequest.prompt,
+      );
+    } catch (openAiError: unknown) {
+      // TODO Export to some log tool
+      console.log({ openAiError, openAiRequest });
+
+      if (
+        typeof openAiError === 'object' &&
+        openAiError !== null &&
+        'status' in openAiError &&
+        openAiError.status === 401
+      ) {
+        throw new UnauthorizedException(
+          `Some problem with api key used to try generate [${openAiRequest.prompt}]`,
+        );
+      }
 
       throw new InternalServerErrorException(
-        `Internal error trying generate list using prompt [${prompt}]`,
+        `Internal error trying generate list using prompt [${openAiRequest.prompt}]`,
       );
     }
   }
