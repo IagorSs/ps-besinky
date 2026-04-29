@@ -1,8 +1,10 @@
 import { CommonTextFields } from "./commonInterfaces";
 
-export default function Title({ children, className }: CommonTextFields) {
+export default function Title({ children, className, fontWeight }: CommonTextFields) {
+  const finalFontWight = fontWeight ?? "font-bold";
+  
   return (
-    <h1 className={"text-4xl font-bold text-white" + " " + className}>
+    <h1 className={"text-4xl text-white " + finalFontWight +  " " + className}>
       {children}
     </h1>
   );
