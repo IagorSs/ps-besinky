@@ -1,3 +1,5 @@
+import { Task as DomainTask } from '@packages/domain';
+
 import {
   Column,
   CreateDateColumn,
@@ -6,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Task {
+export class Task extends DomainTask {
   @PrimaryGeneratedColumn()
   id!: number;
 
