@@ -1,8 +1,10 @@
 import OpenAI from "openai";
 
-const client = new OpenAI();
+export const generateListByPrompt = async (openAiApiKey: string, prompt: string): Promise<string[]> => {
+  const client = new OpenAI({
+    apiKey: openAiApiKey
+  });
 
-export const generateListByPrompt = async (prompt: string): Promise<string[]> => {
   const { output_text: response } = await client.responses.create({
     model: "gpt-5.4-mini",
     input: prompt + ". Responda apenas com a lista de tarefas ordenada, não enumerada, separada por ponto e vírgula, sem nenhum outro texto adicional e, caso não seja possível, responda somente com a palavra 'ERROR'."
