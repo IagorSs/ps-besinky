@@ -28,6 +28,7 @@ export default function ManualTaskCreation({ handleAddTask }: ManualTaskCreation
         onChange={(e) => setTaskTitle(e.target.value)}
         placeholder="Digite uma nova tarefa..."
         className="flex-1 px-4 py-3 border border-zinc-600 rounded-lg bg-zinc-700 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        required
       />
       
       <IconButton

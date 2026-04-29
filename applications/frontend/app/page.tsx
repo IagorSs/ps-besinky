@@ -44,10 +44,10 @@ export default function Home() {
     return taskService.toggleTaskCompletion(task)
   }
 
-  const handleCreateAiTasks = async (aiPrompt: string) => {
+  const handleCreateAiTasks = async (openAiApiKey: string, aiPrompt: string) => {
     // TODO add loading
     // TODO error treatment
-    const aiGeneratedTasks = await taskService.generateTasksWithAiPrompt(aiPrompt);
+    const aiGeneratedTasks = await taskService.generateTasksWithAiPrompt(openAiApiKey, aiPrompt);
 
     setTasks([...aiGeneratedTasks, ...tasks]);
   }
