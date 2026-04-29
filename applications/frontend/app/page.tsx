@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { EmptyTaskListWarning, ManualTaskCreation, TaskItem } from "./components";
+import { EmptyTaskListWarning, ManualTaskCreation, TaskItem, InteractionModeSwitch, } from "./components";
+import type { InteractionMode } from './components/InteractionModeSwitch'
 import { Title, Title2 } from "./components/text";
 import { Task } from "@packages/domain";
 import { taskService } from "./services";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [interactionMode, setInteractionMode] = useState<InteractionMode>("manual");
 
   useEffect(() => {
     // TODO loading
@@ -29,11 +31,11 @@ export default function Home() {
 
   const handleDeleteTask = (task: Task) => {
     taskService
-    .deleteTask(task)
-    .then(() => {
-        // TODO optimize to change rende on specific item, not on entire list
-        setTasks(tasks.filter(({id}) => id !== task.id))
-      })
+      .deleteTask(task)
+      .then(() => {
+          // TODO optimize to change render on specific item, not on entire list
+          setTasks(tasks.filter(({id}) => id !== task.id))
+        })
   }
 
   // FIXME this can generate inconsistencies between frontend and backend, maybe
@@ -45,9 +47,18 @@ export default function Home() {
   return (
     <div className="flex flex-1 justify-center font-sans bg-zinc-900">
       <main className="flex flex-col min-w-xl w-3/4 max-w-7xl space-y-8 h-screen py-12">
-        <Title>Smart To-Do List</Title>
 
-        <ManualTaskCreation handleAddTask={handleAddTask} />
+        <div className="flex">
+          <Title className="flex-1">Smart To-Do List</Title>
+
+          <InteractionModeSwitch onChange={setInteractionMode} />
+        </div>
+
+        {
+          interactionMode === 'manual'
+            ? <ManualTaskCreation handleAddTask={handleAddTask} />
+            : <h2>TODO</h2>
+        }
 
         <div className="flex-1 space-y-3 overflow-hidden pb-12">
           <Title2>Tarefas ({tasks.length})</Title2>
