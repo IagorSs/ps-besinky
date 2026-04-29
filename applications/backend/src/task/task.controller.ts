@@ -21,6 +21,10 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Returns list of tasks ordered decrescent by creation date',
+  })
   async getTasks(): Promise<Task[]> {
     return await this.taskService.getAllTasks();
   }

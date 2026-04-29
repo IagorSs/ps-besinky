@@ -17,7 +17,7 @@ export class TaskService {
   ) {}
 
   async getAllTasks(): Promise<Task[]> {
-    return this.tasksRepository.find();
+    return this.tasksRepository.find({ order: { createdAt: 'DESC' } });
   }
 
   async createTask(createTaskFields: CreateTaskFields): Promise<Task> {
