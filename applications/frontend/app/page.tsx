@@ -2,24 +2,35 @@
 
 import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EmptyTaskListWarning, TaskItem } from "./components";
-import { Task } from "./components/TaskItem";
 import { Title, Title2 } from "./components/text";
+import { Task } from "@packages/domain";
+import { taskService } from "./services";
 
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [inputValue, setInputValue] = useState("");
 
+  useEffect(() => {
+    // TODO error treatment
+    taskService
+      .getTasks()
+      .then((tasks) => setTasks(tasks));
+  }, []);
+
   const handleAddTask = () => {
     if (inputValue.trim() === "") return;
-
+    
+    // TODO real add task
     const newTask: Task = {
       id: Date.now(),
       title: inputValue,
       createdAt: new Date(),
+      isCompleted: false,
+      isGeneratedByAI: false
     };
-
+    
     setTasks([newTask, ...tasks]);
     setInputValue("");
   };

@@ -5,12 +5,7 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { BoldText, CommonText } from "./text";
-
-export interface Task {
-  id: number;
-  title: string;
-  createdAt: Date;
-}
+import { Task } from "@packages/domain";
 
 interface TaskItemProps {
   task: Task
