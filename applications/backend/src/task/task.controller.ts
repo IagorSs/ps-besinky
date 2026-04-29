@@ -10,7 +10,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
-import { Prompt } from 'src/generativeAi/dtos/prompt.dto';
+import { Prompt } from '../generativeAi/dtos/prompt.dto';
 import { CreateTaskFields } from './dtos/createTaskFields.dto';
 import { TaskIdentification } from './dtos/taskIdentification.dto';
 import { Task } from './task.entity';

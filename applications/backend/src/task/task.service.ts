@@ -4,8 +4,8 @@ import { Repository } from 'typeorm';
 import { CreateTaskFields } from './dtos/createTaskFields.dto';
 import { TaskIdentification } from './dtos/taskIdentification.dto';
 import { Task } from './task.entity';
-import { GenerativeAiService } from 'src/generativeAi/generativeAi.service';
-import { Prompt } from 'src/generativeAi/dtos/prompt.dto';
+import { GenerativeAiService } from '../generativeAi/generativeAi.service';
+import { Prompt } from '../generativeAi/dtos/prompt.dto';
 
 @Injectable()
 export class TaskService {

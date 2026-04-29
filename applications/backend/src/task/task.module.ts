@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskService } from './task.service';
 import { TaskController } from './task.controller';
-import { GenerativeAiModule } from 'src/generativeAi/generativeAi.module';
+import { GenerativeAiModule } from '../generativeAi/generativeAi.module';
 
 @Module({
   imports: [GenerativeAiModule, TypeOrmModule.forFeature([Task])],
