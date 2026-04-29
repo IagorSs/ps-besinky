@@ -71,6 +71,8 @@ const MaterialUISwitch = styled(Switch)(() => ({
   },
 }));
 
+type SwitchSize = 'left' | 'right';
+
 export type InteractionMode = 'manual' | 'ai'
 
 interface InteractionModeSwitchProps {
@@ -78,7 +80,7 @@ interface InteractionModeSwitchProps {
 }
 
 export default function InteractionModeSwitch({ onChange }: InteractionModeSwitchProps) {
-  const [switchSize, setSwitchSize] = useState<"left" | 'right'>("left");
+  const [switchSize, setSwitchSize] = useState<SwitchSize>("left");
 
   useEffect(() => {
     onChange(switchSize === 'left' ? "manual" : "ai");
@@ -88,11 +90,18 @@ export default function InteractionModeSwitch({ onChange }: InteractionModeSwitc
     setSwitchSize(e.target.checked ? "right" : "left");
   }
 
+  const getFontWeight = (switchSizeRelated: SwitchSize): string => {
+    const selectedModeFontWeight = "font-extrabold";
+    const unselectedModeFontWeight = "font-light";
+
+    return switchSizeRelated === switchSize ? selectedModeFontWeight : unselectedModeFontWeight;
+  }
+
   return (
     <div className="flex items-center">
-      <BoldText className={switchSize === "left" ? "font-extrabold" : "font-light"}>Manual</BoldText>
+      <BoldText fontWeight={getFontWeight("left")}>Manual</BoldText>
       <MaterialUISwitch onChange={handleChange} />
-      <BoldText className={switchSize === "right" ? "font-extrabold" : "font-light"}>IA</BoldText>
+      <BoldText fontWeight={getFontWeight("right")}>IA</BoldText>
     </div>
   )
 }
