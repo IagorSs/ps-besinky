@@ -1,8 +1,13 @@
 {
   "name": "ps-besinky",
+  "private": true,
   "packageManager": "yarn@4.12.0",
   "workspaces": [
     "applications/*",
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.7.3"
+  }
 }
