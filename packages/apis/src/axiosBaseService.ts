@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
-export default class ApiService {
+export default class AxiosBaseService {
   protected apiClient: AxiosInstance;
 
   constructor(baseUrl: string) {
