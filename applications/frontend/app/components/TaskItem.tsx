@@ -8,10 +8,11 @@ import { BoldText, CommonText } from "./text";
 import { Task } from "@packages/domain";
 
 interface TaskItemProps {
-  task: Task
+  task: Task,
+  onDeleteTask: (task: Task) => void
 }
 
-export default function TaskItem({ task }: TaskItemProps) {
+export default function TaskItem({ task, onDeleteTask }: TaskItemProps) {
   const [isCompleted, setIsCompleted] = useState(false);
 
   const principalColor = isCompleted ? "text-zinc-400" : "text-white";
@@ -33,7 +34,7 @@ export default function TaskItem({ task }: TaskItemProps) {
         </CommonText>
       </div>
       <IconButton
-        onClick={() => alert("TODO")}
+        onClick={() => onDeleteTask(task)}
         aria-label="Deletar tarefa"
         className="hover:bg-red-400/10 rounded-lg transition-all text-red-400 p-2"
         disableRipple

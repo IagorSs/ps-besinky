@@ -13,6 +13,7 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
+    // TODO loading
     // TODO error treatment
     taskService
       .getTasks()
@@ -33,17 +34,26 @@ export default function Home() {
     });
   };
 
-  const handleFormSubmit = (e: React.SubmitEvent) => {
+  const handleAddTaskFormSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     handleAddTask();
   };
+
+  const handleDeleteTask = (task: Task) => {
+    taskService
+    .deleteTask(task)
+    .then(() => {
+        // TODO optimize to change rende on specific item, not on entire list
+        setTasks(tasks.filter(({id}) => id !== task.id))
+      })
+  }
 
   return (
     <div className="flex flex-1 justify-center font-sans bg-zinc-900">
       <main className="flex flex-col min-w-xl w-3/4 max-w-7xl space-y-8 h-screen py-12">
         <Title>Smart To-Do List</Title>
 
-        <form className="flex gap-2" onSubmit={handleFormSubmit}>
+        <form className="flex gap-2" onSubmit={handleAddTaskFormSubmit}>
           <input
             type="text"
             value={inputValue}
@@ -73,6 +83,7 @@ export default function Home() {
                 <TaskItem
                   key={task.id}
                   task={task}
+                  onDeleteTask={handleDeleteTask}
                 />
               ))}
             </ul>
