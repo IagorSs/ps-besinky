@@ -1,6 +1,6 @@
 import { Task } from "@packages/domain";
 import AxiosBaseService from "../axiosBaseService";
-import { CreateTaskFieldsDto } from "./dtos";
+import { CreateTaskFieldsDto, TaskIdentificationDto } from "./dtos";
 
 export default class TaskService extends AxiosBaseService {
   constructor() {
@@ -17,5 +17,9 @@ export default class TaskService extends AxiosBaseService {
     const { data } = await this.apiClient.post<Task>('tasks', createTaskFields);
 
     return data;
+  }
+
+  async deleteTask(taskIdentification: TaskIdentificationDto): Promise<void> {
+    await this.apiClient.delete(`tasks/${taskIdentification.id}`);
   }
 }
