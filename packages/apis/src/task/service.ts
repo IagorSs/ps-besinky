@@ -22,4 +22,8 @@ export default class TaskService extends AxiosBaseService {
   async deleteTask(taskIdentification: TaskIdentificationDto): Promise<void> {
     await this.apiClient.delete(`tasks/${taskIdentification.id}`);
   }
+
+  async toggleTaskCompletion(taskIdentification: TaskIdentificationDto): Promise<void> {
+    await this.apiClient.patch(`tasks/toggleCompletion/${taskIdentification.id}`);
+  }
 }

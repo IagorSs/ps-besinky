@@ -27,7 +27,6 @@ export default function Home() {
     });
   };
 
-
   const handleDeleteTask = (task: Task) => {
     taskService
     .deleteTask(task)
@@ -35,6 +34,12 @@ export default function Home() {
         // TODO optimize to change rende on specific item, not on entire list
         setTasks(tasks.filter(({id}) => id !== task.id))
       })
+  }
+
+  // FIXME this can generate inconsistencies between frontend and backend, maybe
+  // change to simple patch to complete or uncomplete task
+  const handleToggleCheckbox = async (task: Task): Promise<void> => {
+    return taskService.toggleTaskCompletion(task)
   }
 
   return (
@@ -56,6 +61,7 @@ export default function Home() {
                   key={task.id}
                   task={task}
                   onDeleteTask={handleDeleteTask}
+                  onToggleCheckBox={handleToggleCheckbox}
                 />
               ))}
             </ul>

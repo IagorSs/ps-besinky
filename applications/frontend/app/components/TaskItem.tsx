@@ -9,11 +9,21 @@ import { Task } from "@packages/domain";
 
 interface TaskItemProps {
   task: Task,
-  onDeleteTask: (task: Task) => void
+  onDeleteTask: (task: Task) => void,
+  onToggleCheckBox: (task: Task) => Promise<void>
 }
 
-export default function TaskItem({ task, onDeleteTask }: TaskItemProps) {
-  const [isCompleted, setIsCompleted] = useState(false);
+export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskItemProps) {
+  const [isCompleted, setIsCompleted] = useState(task.isCompleted);
+
+  const handleCheckBoxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isTargetChecked = e.target.checked;
+
+    onToggleCheckBox(task)
+      .then(() => {
+        setIsCompleted(isTargetChecked);
+      })
+  }
 
   const principalColor = isCompleted ? "text-zinc-400" : "text-white";
 
@@ -21,7 +31,7 @@ export default function TaskItem({ task, onDeleteTask }: TaskItemProps) {
     <li className="flex items-center gap-2 p-4 bg-zinc-700 rounded-lg border border-zinc-600 hover:bg-zinc-600 transition-all">
       <Checkbox
         checked={isCompleted}
-        onChange={(e) => setIsCompleted(e.target.checked)}
+        onChange={handleCheckBoxClick}
         className={`hover:bg-zinc-400/10 rounded-lg transition-all p-2 ${principalColor}`}
         disableRipple
       />
