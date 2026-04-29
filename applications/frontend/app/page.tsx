@@ -21,18 +21,16 @@ export default function Home() {
 
   const handleAddTask = () => {
     if (inputValue.trim() === "") return;
+
+    // TODO add loading
     
-    // TODO real add task
-    const newTask: Task = {
-      id: Date.now(),
-      title: inputValue,
-      createdAt: new Date(),
-      isCompleted: false,
-      isGeneratedByAI: false
-    };
-    
-    setTasks([newTask, ...tasks]);
-    setInputValue("");
+    // TODO error treatment
+    taskService.addTask({
+      title: inputValue
+    }).then(newTask => {
+      setTasks([newTask, ...tasks]);
+      setInputValue("");
+    });
   };
 
   const handleFormSubmit = (e: React.SubmitEvent) => {
