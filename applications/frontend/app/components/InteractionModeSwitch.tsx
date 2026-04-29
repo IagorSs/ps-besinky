@@ -76,10 +76,11 @@ type SwitchSize = 'left' | 'right';
 export type InteractionMode = 'manual' | 'ai'
 
 interface InteractionModeSwitchProps {
+  disabled?: boolean
   onChange: (interactionMode: InteractionMode) => void
 }
 
-export default function InteractionModeSwitch({ onChange }: InteractionModeSwitchProps) {
+export default function InteractionModeSwitch({ disabled, onChange }: InteractionModeSwitchProps) {
   const [switchSize, setSwitchSize] = useState<SwitchSize>("left");
 
   useEffect(() => {
@@ -100,7 +101,7 @@ export default function InteractionModeSwitch({ onChange }: InteractionModeSwitc
   return (
     <div className="flex items-center">
       <BoldText fontWeight={getFontWeight("left")}>Manual</BoldText>
-      <MaterialUISwitch onChange={handleChange} />
+      <MaterialUISwitch disabled={disabled} onChange={handleChange} />
       <BoldText fontWeight={getFontWeight("right")}>IA</BoldText>
     </div>
   )
