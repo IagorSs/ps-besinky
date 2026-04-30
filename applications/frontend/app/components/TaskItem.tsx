@@ -29,13 +29,16 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
   const principalColor = isCompleted ? "text-zinc-400" : "text-white";
 
   return (
-    <li className={`flex items-center gap-2 p-4 ${task.isGeneratedByAI ? "bg-gradient-to-r from-zinc-700 via-zinc-600 to-purple-900": "bg-zinc-700"} rounded-lg border border-zinc-600 hover:bg-zinc-600 transition-all`}>
+    <li className={`flex items-center gap-2 p-4 ${task.isGeneratedByAI ? "bg-gradient-to-r from-purple-900 via-zinc-600 to-zinc-700": "bg-zinc-700"} rounded-lg border border-zinc-600 hover:bg-zinc-600 transition-all`}>
       <Checkbox
         checked={isCompleted}
         onChange={handleCheckBoxClick}
         className={`hover:bg-zinc-400/10 rounded-lg transition-all p-2 ${principalColor}`}
         disableRipple
       />
+
+      { task.isGeneratedByAI && <AutoAwesomeIcon />}
+      
       <div className="flex flex-col gap-1 flex-1">
         <BoldText className={`${principalColor} ${isCompleted && "line-through"}`}>
           {task.title}
@@ -44,8 +47,6 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
           {task.createdAt.toLocaleString("pt-BR")}
         </CommonText>
       </div>
-
-      { task.isGeneratedByAI && <AutoAwesomeIcon />}
 
       <IconButton
         onClick={() => onDeleteTask(task)}
