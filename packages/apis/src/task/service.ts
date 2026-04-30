@@ -1,6 +1,7 @@
-import { Task } from "@packages/domain";
+import { Task, WebSerializedTask } from "@packages/domain";
 import AxiosBaseService from "../axiosBaseService";
 import { CreateTaskFieldsDto, TaskIdentificationDto } from "./dtos";
+import { TaskView } from "./taskView";
 
 export default class TaskService extends AxiosBaseService {
   constructor() {
@@ -8,15 +9,15 @@ export default class TaskService extends AxiosBaseService {
   }
 
   async getTasks(): Promise<Task[]> {
-    const { data } = await this.apiClient.get<Task[]>('tasks');
+    const { data } = await this.apiClient.get<WebSerializedTask[]>('tasks');
 
-    return data;
+    return data.map(item => new TaskView(item));
   }
 
   async addTask(createTaskFields: CreateTaskFieldsDto): Promise<Task> {
-    const { data } = await this.apiClient.post<Task>('tasks', createTaskFields);
+    const { data } = await this.apiClient.post<WebSerializedTask>('tasks', createTaskFields);
 
-    return data;
+    return new TaskView(data);
   }
 
   async deleteTask(taskIdentification: TaskIdentificationDto): Promise<void> {
@@ -28,7 +29,7 @@ export default class TaskService extends AxiosBaseService {
   }
 
   async generateTasksWithAiPrompt(openAiApiKey: string, aiPrompt: string): Promise<Task[]> {
-    const { data } = await this.apiClient.post<Task[]>(
+    const { data } = await this.apiClient.post<WebSerializedTask[]>(
       'tasks/aiGeneration',
       {
         openAiId: {
@@ -38,6 +39,6 @@ export default class TaskService extends AxiosBaseService {
       }
     );
 
-    return data;
+    return data.map(item => new TaskView(item));
   }
 }
