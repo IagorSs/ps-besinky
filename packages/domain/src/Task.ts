@@ -1,3 +1,11 @@
+export interface WebSerializedTask {
+  id: number;
+  title: string;
+  isCompleted: boolean;
+  isGeneratedByAI: boolean;
+  createdAt: string;
+}
+
 export default abstract class Task {
   abstract id: number;
   abstract title: string;
