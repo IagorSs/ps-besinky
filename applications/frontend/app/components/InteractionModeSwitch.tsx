@@ -42,7 +42,7 @@ const MaterialUISwitch = styled(Switch)(() => ({
 
   // Definition of icon mask
   '& .MuiSwitch-thumb': {
-    backgroundColor: '#3F3F47',
+    backgroundColor: '#6a6a79',
     width: 32,
     height: 32,
     border: 0,
@@ -55,11 +55,6 @@ const MaterialUISwitch = styled(Switch)(() => ({
       top: 0,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
-
-      // Left icon
-      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
-        '#fff',
-      )}" d="M10.8334 20C8.11669 20 5.67502 18.3417 4.66669 15.8167L2.14169 9.475C1.88336 8.81667 2.50002 8.15833 3.17502 8.375L3.83336 8.59167C4.30002 8.74167 4.68336 9.1 4.86669 9.55833L6.04169 12.5H6.66669V2.70833C6.66669 2.13333 7.13336 1.66667 7.70836 1.66667C8.28336 1.66667 8.75002 2.13333 8.75002 2.70833V10H9.58336V1.04167C9.58336 0.466667 10.05 0 10.625 0C11.2 0 11.6667 0.466667 11.6667 1.04167V10H12.5V2.29167C12.5 1.71667 12.9667 1.25 13.5417 1.25C14.1167 1.25 14.5834 1.71667 14.5834 2.29167V10H15.4167V4.79167C15.4167 4.21667 15.8834 3.75 16.4584 3.75C17.0334 3.75 17.5 4.21667 17.5 4.79167V13.3333C17.5 17.0167 14.5167 20 10.8334 20Z"/></svg>')`,
     },
   },
 
