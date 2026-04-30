@@ -4,6 +4,7 @@ import { useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import { BoldText, CommonText } from "./text";
 import { Task } from "@packages/domain";
 
@@ -28,7 +29,7 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
   const principalColor = isCompleted ? "text-zinc-400" : "text-white";
 
   return (
-    <li className="flex items-center gap-2 p-4 bg-zinc-700 rounded-lg border border-zinc-600 hover:bg-zinc-600 transition-all">
+    <li className={`flex items-center gap-2 p-4 ${task.isGeneratedByAI ? "bg-gradient-to-r from-zinc-700 via-zinc-600 to-purple-900": "bg-zinc-700"} rounded-lg border border-zinc-600 hover:bg-zinc-600 transition-all`}>
       <Checkbox
         checked={isCompleted}
         onChange={handleCheckBoxClick}
@@ -43,6 +44,9 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
           {task.createdAt.toLocaleString("pt-BR")}
         </CommonText>
       </div>
+
+      { task.isGeneratedByAI && <AutoAwesomeIcon />}
+
       <IconButton
         onClick={() => onDeleteTask(task)}
         aria-label="Deletar tarefa"
