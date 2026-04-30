@@ -113,6 +113,7 @@ __metadata:
     "@mui/icons-material": "npm:^9.0.0"
     "@mui/material": "npm:^9.0.0"
     "@mui/material-nextjs": "npm:^9.0.0"
+    "@packages/apis": "workspace:*"
     "@tailwindcss/postcss": "npm:^4"
     "@types/node": "npm:^20"
     "@types/react": "npm:^19"
@@ -2276,7 +2277,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@packages/apis@workspace:packages/apis":
+"@packages/apis@workspace:*, @packages/apis@workspace:packages/apis":
   version: 0.0.0-use.local
   resolution: "@packages/apis@workspace:packages/apis"
   dependencies:

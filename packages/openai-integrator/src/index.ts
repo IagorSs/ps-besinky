@@ -1,16 +1,28 @@
 import OpenAI from "openai";
 
-export const generateListByPrompt = async (openAiApiKey: string, prompt: string): Promise<string[]> => {
+export const generateListByPrompt = async (openAiApiKey: string, promptRequest: string): Promise<string[]> => {
   const client = new OpenAI({
     apiKey: openAiApiKey
   });
 
+  const structuredPrompt = {
+    formato_resposta: "lista",
+    especificacoes_resposta: {
+      numeracao: false,
+      quebra_linha: false,
+      sinalizador_item: false,
+      separador: ";",
+    },
+    se_erro: "Responda somente com a palavra 'ERROR'",
+    instrucao: promptRequest
+  }
+
   const { output_text: response } = await client.responses.create({
     model: "gpt-5.4-mini",
-    input: prompt + ". Responda apenas com a lista de tarefas ordenada, não enumerada, separada por ponto e vírgula, sem nenhum outro texto adicional e, caso não seja possível, responda somente com a palavra 'ERROR'."
+    input: JSON.stringify(structuredPrompt)
   });
 
-  if (response === "ERROR") throw new Error(`Cannot generate list using prompt [${prompt}].`);
+  if (response === "ERROR") throw new Error(`Cannot generate list using prompt [${promptRequest}].`);
 
   return response.split(";").map(item => {
     const itemWithoutSpaces = item.trim();
