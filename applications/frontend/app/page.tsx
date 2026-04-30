@@ -82,7 +82,7 @@ export default function Home() {
 
       await taskService.toggleTaskCompletion(task);
 
-      const copiedTask = { ...tasks };
+      const copiedTask = [...tasks];
       
       copiedTask[taskIdx] = {
         ...tasks[taskIdx],
