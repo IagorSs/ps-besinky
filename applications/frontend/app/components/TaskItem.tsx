@@ -10,11 +10,12 @@ import { Task } from "@packages/domain";
 
 interface TaskItemProps {
   task: Task,
+  isInteractionsDisabled: boolean;
   onDeleteTask: (task: Task) => Promise<void>,
   onToggleCheckBox: (task: Task) => Promise<void>
 }
 
-export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskItemProps) {
+export default function TaskItem({ task, onDeleteTask, onToggleCheckBox, isInteractionsDisabled }: TaskItemProps) {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
 
   const handleCheckBoxClick = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +24,7 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
     try {
       await onToggleCheckBox(task);
 
-        setIsCompleted(isTargetChecked);
+      setIsCompleted(isTargetChecked);
     } catch {
       // OnToggleCheckBox has made error treatment
     }
@@ -36,8 +37,9 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
       <Checkbox
         checked={isCompleted}
         onChange={handleCheckBoxClick}
-        className={`hover:bg-zinc-400/10 rounded-lg transition-all p-2 ${principalColor}`}
+        className={`hover:bg-zinc-400/10 rounded-lg transition-all p-2 ${principalColor} ${isInteractionsDisabled && "opacity-30"}`}
         disableRipple
+        disabled={isInteractionsDisabled}
       />
 
       { task.isGeneratedByAI && <AutoAwesomeIcon />}
@@ -54,8 +56,9 @@ export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskI
       <IconButton
         onClick={() => onDeleteTask(task)}
         aria-label="Deletar tarefa"
-        className="hover:bg-red-400/10 rounded-lg transition-all text-red-400 p-2"
+        className={`hover:bg-red-400/10 rounded-lg transition-all p-2 text-red-400 ${isInteractionsDisabled && "opacity-30"}`}
         disableRipple
+        disabled={isInteractionsDisabled}
       >
         <DeleteIcon />
       </IconButton>

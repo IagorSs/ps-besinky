@@ -4,11 +4,12 @@ import TaskItem from "./TaskItem"
 
 interface TaskListProps {
   tasks: Task[];
+  isLoading: boolean;
   handleDeleteTask: (task: Task) => Promise<void>;
   handleToggleCheckbox: (task: Task) => Promise<void>;
 }
 
-export default function TaskList({ tasks, handleDeleteTask, handleToggleCheckbox }: TaskListProps) {
+export default function TaskList({ tasks, handleDeleteTask, handleToggleCheckbox, isLoading }: TaskListProps) {
   return tasks.length === 0 ? (
       <EmptyTaskListWarning />
     ) : (
@@ -19,6 +20,7 @@ export default function TaskList({ tasks, handleDeleteTask, handleToggleCheckbox
             task={task}
             onDeleteTask={handleDeleteTask}
             onToggleCheckBox={handleToggleCheckbox}
+            isInteractionsDisabled={isLoading}
           />
         ))}
       </ul>

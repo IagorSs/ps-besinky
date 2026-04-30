@@ -141,7 +141,7 @@ export default function Home() {
                 <Skeleton variant="rounded" width='100%' height={400} sx={{ bgcolor: '#3f3f46' }} />
               )
               : (
-                <TaskList tasks={tasks} handleDeleteTask={handleDeleteTask} handleToggleCheckbox={handleToggleCheckbox} />
+                <TaskList tasks={tasks} handleDeleteTask={handleDeleteTask} handleToggleCheckbox={handleToggleCheckbox} isLoading={loading} />
               )
           }
 
