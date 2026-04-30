@@ -13,7 +13,6 @@ export class GenerativeAiService {
         openAiRequest.prompt,
       );
     } catch (openAiError: unknown) {
-      // TODO Export to some log tool
       console.log({ openAiError, openAiRequest });
 
       if (

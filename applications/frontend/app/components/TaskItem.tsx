@@ -10,20 +10,23 @@ import { Task } from "@packages/domain";
 
 interface TaskItemProps {
   task: Task,
-  onDeleteTask: (task: Task) => void,
+  onDeleteTask: (task: Task) => Promise<void>,
   onToggleCheckBox: (task: Task) => Promise<void>
 }
 
 export default function TaskItem({ task, onDeleteTask, onToggleCheckBox }: TaskItemProps) {
   const [isCompleted, setIsCompleted] = useState(task.isCompleted);
 
-  const handleCheckBoxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckBoxClick = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const isTargetChecked = e.target.checked;
 
-    onToggleCheckBox(task)
-      .then(() => {
+    try {
+      await onToggleCheckBox(task);
+
         setIsCompleted(isTargetChecked);
-      })
+    } catch {
+      // OnToggleCheckBox has made error treatment
+    }
   }
 
   const principalColor = isCompleted ? "text-zinc-400" : "text-white";

@@ -4,7 +4,7 @@ import TaskItem from "./TaskItem"
 
 interface TaskListProps {
   tasks: Task[];
-  handleDeleteTask: (task: Task) => void;
+  handleDeleteTask: (task: Task) => Promise<void>;
   handleToggleCheckbox: (task: Task) => Promise<void>;
 }
 

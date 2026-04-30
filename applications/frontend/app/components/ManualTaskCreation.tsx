@@ -6,19 +6,24 @@ import { useState } from "react";
 import { TextField } from "./input";
 
 interface ManualTaskCreationProps {
-  handleAddTask: (title: string) => void
+  handleAddTask: (title: string) => Promise<void>
 }
 
+// TODO loading state
 export default function ManualTaskCreation({ handleAddTask }: ManualTaskCreationProps) {
   const [taskTitle, setTaskTitle] = useState("");
 
-    const handleAddTaskFormSubmit = (e: React.SubmitEvent) => {
+    const handleAddTaskFormSubmit = async (e: React.SubmitEvent) => {
       e.preventDefault();
       if (taskTitle.trim() === "") return;
 
-      handleAddTask(taskTitle);
-
-      setTaskTitle("");
+      try {
+        await handleAddTask(taskTitle);
+  
+        setTaskTitle("");
+      } catch {
+        // HandleAddTask has made error treatment
+      }
     };
 
   return (
