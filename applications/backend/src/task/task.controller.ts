@@ -24,6 +24,7 @@ export class TaskController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Returns list of tasks ordered decrescent by creation date',
+    type: Task,
   })
   async getTasks(): Promise<Task[]> {
     return await this.taskService.getAllTasks();
@@ -41,6 +42,8 @@ export class TaskController {
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
+    type: Task,
+    isArray: true,
   })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
