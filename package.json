@@ -1,6 +1,10 @@
 {
   "name": "ps-besinky",
   "private": true,
+  "scripts": {
+    "docker:start": "docker compose up",
+    "docker:start:f-build": "yarn docker:start --build"
+  },
   "packageManager": "yarn@4.12.0",
   "workspaces": [
     "applications/*",

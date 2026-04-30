@@ -5,14 +5,18 @@ services:
     build:
       dockerfile: ./applications/backend/Dockerfile
     ports:
-      - "3001:3000"
+      - "3001:6866"
+    volumes:
+      - ./applications/backend/mydb.sql:/app/applications/backend/mydb.sql
     environment:
       - NODE_ENV=production
-      - PORT=3000
+      - PORT=6866
 
   frontend:
     build:
       dockerfile: ./applications/frontend/Dockerfile
+      args:
+        - BACKEND_HOST=http://localhost:3001
     ports:
       - "3000:3000"
     environment:
