@@ -128,7 +128,7 @@ export default function Home() {
 
         {
           interactionMode === 'manual'
-            ? <ManualTaskCreation handleAddTask={handleAddTask} />
+            ? <ManualTaskCreation handleAddTask={handleAddTask} isLoading={loading} />
             : <AiTaskCreation handleCreateAiTasks={handleCreateAiTasks} isLoading={loading} />
         }
 

@@ -4,13 +4,14 @@ import AddIcon from "@mui/icons-material/Add";
 import IconButton from "@mui/material/IconButton";
 import { useState } from "react";
 import { TextField } from "./input";
+import { CircularProgress } from "@mui/material";
 
 interface ManualTaskCreationProps {
+  isLoading: boolean;
   handleAddTask: (title: string) => Promise<void>
 }
 
-// TODO loading state
-export default function ManualTaskCreation({ handleAddTask }: ManualTaskCreationProps) {
+export default function ManualTaskCreation({ handleAddTask, isLoading }: ManualTaskCreationProps) {
   const [taskTitle, setTaskTitle] = useState("");
 
     const handleAddTaskFormSubmit = async (e: React.SubmitEvent) => {
@@ -33,9 +34,12 @@ export default function ManualTaskCreation({ handleAddTask }: ManualTaskCreation
         onChange={setTaskTitle}
         placeholder="Digite uma nova tarefa..."
         styles={{
-          everClassNames: "flex-1 border-zinc-600 bg-zinc-700 text-white focus:ring-zinc-400"
+          everClassNames: "flex-1 bg-zinc-700 focus:ring-zinc-400",
+            loadingClassNames: "border-0 text-zinc-400",
+            nonLoadingClassNames: "border-zinc-600 text-white",
         }}
         required
+        loading={isLoading}
       />
       
       <IconButton
@@ -44,7 +48,9 @@ export default function ManualTaskCreation({ handleAddTask }: ManualTaskCreation
         className="py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
         disableRipple
       >
-        <AddIcon />
+        {
+          isLoading ? <CircularProgress size={24} sx={{color: "white"}} /> : <AddIcon />
+        }
       </IconButton>
     </form>
   )
