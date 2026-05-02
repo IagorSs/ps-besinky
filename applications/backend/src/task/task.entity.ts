@@ -1,4 +1,5 @@
-import { Task as DomainTask } from '@packages/domain';
+// TODO make this works
+// import { Task as DomainTask } from '@packages/domain';
 
 import {
   Column,
@@ -8,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Task extends DomainTask {
+export class Task {
   @PrimaryGeneratedColumn()
   id!: number;
 
