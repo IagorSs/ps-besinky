@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import { BoldText } from "./text";
 import { useEffect, useState } from "react";
 
+// TODO verify disabled state when is manual
 const MaterialUISwitch = styled(Switch)(() => ({
   width: 62,
   height: 34,
